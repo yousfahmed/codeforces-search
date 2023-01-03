@@ -19,43 +19,50 @@ import Alert from "@mui/material/Alert";
 import Contest from "./Contest";
 import "./index.css";
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function App() {
   const [type, setType] = useState("Rounds");
-  const [handels, setHandels] = useState("");
   const [loading, setLoader] = useState(false);
   const [showFailed, setShow] = useState(false);
   const [failMessage, setMessage] = useState("");
   const [result, setResult] = useState([]);
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
   var contest_participate = new Set();
   var cnt;
   function add_to_list(res) {
     return new Promise((resolve) => {
-      let i = res.length;
       for (let con of res) contest_participate.add(con["contestId"]);
       resolve(1);
     });
   }
-  async function add(handel, t) {
+  async function get_status(handel, t) {
     await sleep(t * 2000);
-    fetch(` https://codeforces.com/api/user.status?handle=${handel}`, {
+    await fetch(` https://codeforces.com/api/user.status?handle=${handel}`, {
       method: "POST",
     })
       .then((res) => res.json())
       .then((res) => {
         if (res["status"] === "FAILED") {
+          setMessage(res["comment"]);
+          setShow(true);
+          setLoader(false);
         } else {
           add_to_list(res["result"]).then((x) => {
-            console.log(contest_participate);
             if (cnt === 1) get_contest();
             else --cnt;
           });
         }
+      })
+      .catch((er) => {
+        setMessage(
+          "Something went wrong, please try again later. sorry for that"
+        );
+        setShow(true);
+        setLoader(false);
       });
   }
-  console.log("render");
   useEffect(() => {}, [result.length]);
 
   async function get_contest() {
@@ -76,7 +83,7 @@ function App() {
           time1 = time1.toString();
           time2 = time2.toString();
           while (time1.length < 2) time1 = "0" + time1;
-          while (time2.length < 2) time2 = time2 + "0";
+          while (time2.length < 2) time2 = "0" + time2;
           list.push({
             id: con["id"],
             name: con["name"],
@@ -88,19 +95,19 @@ function App() {
         setLoader(false);
       });
   }
-
   function submit() {
-    if (handels.length === 0) {
+    let handels = sessionStorage.getItem("handels");
+    if (!handels || handels.length === 0) {
       setMessage("Please enter at lest one handel");
       setShow(true);
       return;
     }
     setLoader(true);
     let handel_list = handels.split(";");
-    let i = 1;
+    let i = 0;
     cnt = handel_list.length;
     for (let handel of handel_list) {
-      add(handel, i);
+      get_status(handel, i);
       ++i;
     }
   }
@@ -150,10 +157,15 @@ function App() {
               placeholder={
                 "Enter Handels Seperated By semi-colon ;\nex : Abdelaleem;ProAbdo"
               }
+              defaultValue={
+                sessionStorage.getItem("handels")
+                  ? sessionStorage.getItem("handels")
+                  : ""
+              }
               onChange={(e) => {
                 let text = e.target.value;
                 text = text.replace(/\s/g, "");
-                setHandels(text);
+                sessionStorage.setItem("handels", text);
               }}
             />
           </MDBCol>
