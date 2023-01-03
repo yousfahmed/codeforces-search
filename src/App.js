@@ -210,13 +210,16 @@ function App() {
               <MDBCardBody className="p-0">
                 <MDBListGroup flush className="rounded-3">
                   <MDBListGroupItem className="d-flex align-items-center p-3">
-                    <MDBCol size="4">
+                    <MDBCol size="1">
+                      <MDBCardText className="text-wrap">#</MDBCardText>
+                    </MDBCol>
+                    <MDBCol size="5">
                       <MDBCardText className="text-wrap">Name</MDBCardText>
                     </MDBCol>
-                    <MDBCol size="4">
+                    <MDBCol size="3">
                       <MDBCardText className="text-wrap">Duration</MDBCardText>
                     </MDBCol>
-                    <MDBCol size="4">
+                    <MDBCol size="3">
                       <MDBCardText className="text-wrap">Type</MDBCardText>
                     </MDBCol>
                   </MDBListGroupItem>
@@ -228,6 +231,7 @@ function App() {
                         name={item["name"]}
                         type={item["type"]}
                         id={item["id"]}
+                        Key={index + 1}
                       ></Contest>
                     );
                   })}
