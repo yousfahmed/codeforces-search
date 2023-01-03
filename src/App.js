@@ -74,24 +74,39 @@ function App() {
     })
       .then((resp) => resp.json())
       .then((res) => {
-        var list = [];
-        for (let con of res["result"]) {
-          if (con["phase"] !== "FINISHED") continue;
-          if (contest_participate.has(con["id"])) continue;
-          let time1 = Math.floor(con["durationSeconds"] / 3600);
-          let time2 = Math.floor(con["durationSeconds"] / 60) - time1 * 60;
-          time1 = time1.toString();
-          time2 = time2.toString();
-          while (time1.length < 2) time1 = "0" + time1;
-          while (time2.length < 2) time2 = "0" + time2;
-          list.push({
-            id: con["id"],
-            name: con["name"],
-            type: con["type"],
-            time: time1.toString() + ":" + time2.toString(),
-          });
+        if (res["status"] === "FAILED") {
+          setMessage(
+            "Something went wrong, please try again later. sorry for that"
+          );
+          setShow(true);
+          setLoader(false);
+        } else {
+          var list = [];
+          for (let con of res["result"]) {
+            if (con["phase"] !== "FINISHED") continue;
+            if (contest_participate.has(con["id"])) continue;
+            let time1 = Math.floor(con["durationSeconds"] / 3600);
+            let time2 = Math.floor(con["durationSeconds"] / 60) - time1 * 60;
+            time1 = time1.toString();
+            time2 = time2.toString();
+            while (time1.length < 2) time1 = "0" + time1;
+            while (time2.length < 2) time2 = "0" + time2;
+            list.push({
+              id: con["id"],
+              name: con["name"],
+              type: con["type"],
+              time: time1.toString() + ":" + time2.toString(),
+            });
+          }
         }
         setResult(list);
+        setLoader(false);
+      })
+      .catch((e) => {
+        setMessage(
+          "Something went wrong, please try again later. sorry for that"
+        );
+        setShow(true);
         setLoader(false);
       });
   }
