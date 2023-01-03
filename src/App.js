@@ -151,7 +151,7 @@ function App() {
               id="handels"
               className="p-3"
               type="text"
-              rows={2}
+              rows={3}
               contrast
               autoFocus
               placeholder={
@@ -171,7 +171,7 @@ function App() {
           </MDBCol>
           <MDBCol size="12">
             <span
-              className="pe-2 noIbar"
+              className="pe-1 noIbar"
               style={{
                 color: "white",
                 userSelect: "none",
@@ -207,7 +207,7 @@ function App() {
             </MDBBtnGroup>
             <MDBBtn
               rounded
-              className="mx-2"
+              // className="mx-2"
               color="secondary"
               style={{
                 display: "inline",
