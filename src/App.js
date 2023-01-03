@@ -149,7 +149,7 @@ function App() {
             <MDBTextArea
               label="Handels"
               id="handels"
-              className="p-3"
+              className="p-2"
               type="text"
               rows={3}
               contrast
