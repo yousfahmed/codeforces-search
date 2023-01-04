@@ -3,7 +3,7 @@ import { MDBCardText, MDBListGroupItem, MDBCol } from "mdb-react-ui-kit";
 export default function Contest(props) {
   let url =
     "https://codeforces.com/" +
-    (props.type === "CF" ? "contest/" : "gym/") +
+    (props.link === "Rounds" ? "contest/" : "gym/") +
     props.id;
   return (
     <MDBListGroupItem className="d-flex align-items-center p-3">

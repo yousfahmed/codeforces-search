@@ -258,6 +258,7 @@ function App() {
                     return (
                       <Contest
                         key={index}
+                        link={type}
                         time={item["time"]}
                         name={item["name"]}
                         type={item["type"]}
