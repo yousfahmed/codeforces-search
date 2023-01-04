@@ -99,6 +99,7 @@ function App() {
             });
           }
         }
+        list.reverse();
         setResult(list);
         setLoader(false);
       })
@@ -236,7 +237,10 @@ function App() {
             <MDBCard className="mb-4 mb-lg-0">
               <MDBCardBody className="p-0">
                 <MDBListGroup flush className="rounded-3">
-                  <MDBListGroupItem className="d-flex align-items-center p-3">
+                  <MDBListGroupItem
+                    className="d-flex align-items-center p-3"
+                    style={{ backgroundColor: "#d1d1d2" }}
+                  >
                     <MDBCol size="1">
                       <MDBCardText className="text-wrap">#</MDBCardText>
                     </MDBCol>
