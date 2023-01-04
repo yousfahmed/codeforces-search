@@ -99,7 +99,7 @@ function App() {
             });
           }
         }
-        list.reverse();
+        if (type === "GYM") list.reverse();
         setResult(list);
         setLoader(false);
       })
